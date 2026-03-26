@@ -1,0 +1,116 @@
+<html>
+
+<head>
+
+	<script>
+	
+		var nome_user = prompt('Olá! Por favor, informe seu nome:');
+		const hotel_nome = "Luthor Hotelaria"
+		tentativas_acesso = 0;
+		senha = "2678";
+		quarto_livre = ['livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', ];
+		n_quarto_livres = (quarto_livre.length);
+
+		function inicio() {
+			if (tentativas_acesso >= 3){
+				alert('Número de tentativas excedido. Acesso bloqueado.');
+				return;
+			} else if (nome_user === null || nome_user.trim() === '') {
+				alert('Por favor, informe um nome válido.');
+				nome_user = prompt('Olá! Por favor, informe seu nome:');
+				tentativas_acesso++;
+				inicio();
+			} else {
+				var senha_user = prompt('Olá ' + nome_user + '! Por favor, informe a senha de acesso:');
+				if (senha_user === 	null || senha_user.trim() === '') {
+					alert('Por favor, informe uma senha válida.');
+					tentativas_acesso++;
+					inicio();
+				} else if (senha_user !== senha) {
+					alert('Senha incorreta. Tente novamente.');
+					tentativas_acesso++;
+					inicio();
+				} else if(senha_user = senha) {
+					tentativas_acesso = 0; // Resetar tentativas após um nome válido
+					alert('Bem-vindo ao ' + hotel_nome + '!\n\nSelecione uma opção para continuar:');
+					var escolha = parseInt(prompt('1.) Reserva de Quartos 2.) Cadastro de Hóspedes 3.) Eventos 4.) Ar-condicionado 5.) Abastecimento de Carros 6.) Relátorios operacionais 4.) Sair'));
+
+					if (escolha === 1) {
+						reserva_quartos();
+					} else if (escolha === 2) {
+						cadastro_hospedes();
+					} else if (escolha === 3) {
+						abastecer_carros();
+					} else if (escolha === 4) {
+						sair();
+					} else {
+						erro();
+					}
+
+				}
+			}
+		}		
+
+		function reserva_quartos() {
+			alert('HOTEL ' + hotel_nome + ' - RESERVA DE QUARTOS: \n  Total de quartos livres: ' + n_quarto_livres);
+			var diaria = parseFloat(prompt("Informe o valor da diaria: "));
+			if(diaria = " " && diaria < 0){
+				alert("valor invalido");
+				inicio();
+			} else {
+				var q_dias = parseInt(prompt("Quantos dias de reserva? "));
+				if(q_dias = " " && q_dias < 0 && q_dias > 30){
+					alert("valor invalido");
+					inicio();
+				} else {
+					var nome_hosp = prompt("Digite o nome completo do hospede: ");
+					if(nome_hosp = null){
+						alert("valor invalido");
+						inicio();
+					} else {
+						ver_quarto = parseInt(prompt("Qual quarto deseja fazer reserva? "));
+						for(i = 0, i <= n_quarto_livres, i++){
+							alert(quarto_livre[ver_quarto]);		//////////////////////////////PAREI AQUI, PRECISA TERMINAR.
+						}
+					}
+				}
+			}
+			inicio();
+		}
+
+		function cadastro_hospedes() {
+			alert('HOTEL ' + hotel_nome + ' - CADASTRO DE HÓSPEDES');
+			inicio();
+		}
+
+		function abastecer_carros() {
+			alert('HOTEL ' + hotel_nome + ' - ABASTECER');
+			inicio();
+		}
+
+		function erro() {
+			alert('Por favor, informe um número entre 1 e 7');
+			inicio();
+		}
+
+		function sair() {
+			var confirma = confirm('Você deseja sair?');
+			if (confirma) {
+				alert('muito obrigado e ate logo, ' + nome_user);
+				window.close();
+			} else {
+				inicio();
+			}
+		}
+
+		
+		
+		inicio();
+	</script>
+</head>
+
+<body>
+
+</body>
+
+</html>
