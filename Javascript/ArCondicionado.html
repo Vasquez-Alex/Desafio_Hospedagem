@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ar-condicionado</title>
+    <script>
+        function sistema_arcondicionado() {
+            let menor_valor = Infinity;
+            let nome_menor = "";
+            let maior_valor = 0;
+            let nome_maior = "";
+            let continuar = "S";
+
+            do {
+                let empresa = prompt("Qual o nome da empresa?");
+                let valor_aparelho = parseFloat(prompt("Qual o valor por aparelho?"));
+                let qtd_aparelhos = parseInt(prompt("Qual a quantidade de aparelhos?"));
+                let perc_desconto = parseFloat(prompt("Qual o percentual de desconto? (%)"));
+                let qtd_minima = parseInt(prompt("Qual a quantidade mínima para desconto?"));
+                let valor_deslocamento = parseFloat(prompt("Qual o valor fixo de deslocamento?"));
+                let valor_servico = valor_aparelho * qtd_aparelhos;
+
+                if (qtd_aparelhos >= qtd_minima) {
+                    valor_servico -= (valor_servico * (perc_desconto / 100));
+                }
+
+                valor_servico += valor_deslocamento;
+                alert("O serviço de " + empresa + " custará R$ " + valor_servico.toFixed(2));
+
+                if (valor_servico < menor_valor) {
+                    menor_valor = valor_servico;
+                    nome_menor = empresa;
+                }
+
+                if (valor_servico > maior_valor) {
+                    maior_valor = valor_servico;
+                    nome_maior = empresa;
+                }
+
+                continuar = prompt("Deseja informar novos dados? (S/N)").toUpperCase();
+
+            } while (continuar === "S");
+
+            let diferenca = ((maior_valor - menor_valor) / menor_valor) * 100;
+
+            alert("O orçamento de menor valor é o de " + nome_menor + " por R$ " + menor_valor.toFixed(2) +
+                "\nO orçamento de maior valor é o de " + nome_maior + " por R$ " + maior_valor.toFixed(2) +
+                "\nA diferença percentual entre eles é de " + diferenca.toFixed(2) + "%");
+}
+    sistema_arcondicionado();
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

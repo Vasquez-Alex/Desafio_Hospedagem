@@ -1,116 +1,440 @@
-<html>
+	<html>
+	<head>
+		<script>
+			// --- VARIÁVEIS GLOBAIS para que depois possam ser acessadas por outros subprogramas, já deu bastante problema... ---
+			var nome_user = prompt('Olá! Por favor, informe seu nome:');
+			const hotel_nome = "Luthor Hotelaria";
+			var tentativas_acesso = 0;
+			var senha = "2678";
+			var quarto_livre = ['livre', 'livre', 'livre', 'livre', 'livre',
+								'livre', 'livre', 'livre', 'livre', 'livre',
+								'livre', 'livre', 'livre', 'livre', 'livre',
+								'livre', 'livre', 'livre', 'livre', 'livre'];
+			var laranja = [
+				{ emp: " ", dia: "Segunda", disp: "S", Horario: "07:00 até 23:00",}, 
+				{ emp: " ", dia: "Terça",   disp: "S", Horario: "07:00 até 23:00" },      
+				{ emp: " ", dia: "Quarta",  disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Quinta",  disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Sexta",   disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Sabado",  disp: "S", Horario: "07:00 até 15:00" },
+				{ emp: " ", dia: "Domingo", disp: "S", Horario: "07:00 até 15:00" }    
+			];
 
-<head>
+			var colorado = [
+				{ emp: " ", dia: "Segunda", disp: "S", Horario: "07:00 até 23:00",}, 
+				{ emp: " ", dia: "Terça",   disp: "S", Horario: "07:00 até 23:00" },      
+				{ emp: " ", dia: "Quarta",  disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Quinta",  disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Sexta",   disp: "S", Horario: "07:00 até 23:00" },
+				{ emp: " ", dia: "Sabado",  disp: "S", Horario: "07:00 até 15:00" },
+				{ emp: " ", dia: "Domingo", disp: "S", Horario: "07:00 até 15:00" }    
+			];
+			var n_quarto_livres = 20;
+			// Variáveis para o Relatório (Subprograma 6)
+			var total_reservas_quartos = 0;
+			var total_eventos_confirmados = 0;
+			var receita_hospedagem = 0;
+			var receita_eventos = 0;
+			var lista_hospedes = []; 
 
-	<script>
-	
-		var nome_user = prompt('Olá! Por favor, informe seu nome:');
-		const hotel_nome = "Luthor Hotelaria"
-		tentativas_acesso = 0;
-		senha = "2678";
-		quarto_livre = ['livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', 'livre', ];
-		n_quarto_livres = (quarto_livre.length);
-
-		function inicio() {
-			if (tentativas_acesso >= 3){
-				alert('Número de tentativas excedido. Acesso bloqueado.');
-				return;
-			} else if (nome_user === null || nome_user.trim() === '') {
-				alert('Por favor, informe um nome válido.');
-				nome_user = prompt('Olá! Por favor, informe seu nome:');
-				tentativas_acesso++;
-				inicio();
-			} else {
-				var senha_user = prompt('Olá ' + nome_user + '! Por favor, informe a senha de acesso:');
-				if (senha_user === 	null || senha_user.trim() === '') {
-					alert('Por favor, informe uma senha válida.');
+			function inicio() {
+				if (tentativas_acesso >= 3) {
+					alert('Número de tentativas excedido. Acesso bloqueado.');
+					return;
+				} else if (nome_user === null || nome_user.trim() === '') {
+					alert('Por favor, informe um nome válido.');
+					nome_user = prompt('Olá! Por favor, informe seu nome:');
 					tentativas_acesso++;
-					inicio();
-				} else if (senha_user !== senha) {
-					alert('Senha incorreta. Tente novamente.');
-					tentativas_acesso++;
-					inicio();
-				} else if(senha_user = senha) {
-					tentativas_acesso = 0; // Resetar tentativas após um nome válido
-					alert('Bem-vindo ao ' + hotel_nome + '!\n\nSelecione uma opção para continuar:');
-					var escolha = parseInt(prompt('1.) Reserva de Quartos 2.) Cadastro de Hóspedes 3.) Eventos 4.) Ar-condicionado 5.) Abastecimento de Carros 6.) Relátorios operacionais 4.) Sair'));
-
-					if (escolha === 1) {
-						reserva_quartos();
-					} else if (escolha === 2) {
-						cadastro_hospedes();
-					} else if (escolha === 3) {
-						abastecer_carros();
-					} else if (escolha === 4) {
-						sair();
-					} else {
-						erro();
-					}
-
-				}
-			}
-		}		
-
-		function reserva_quartos() {
-			alert('HOTEL ' + hotel_nome + ' - RESERVA DE QUARTOS: \n  Total de quartos livres: ' + n_quarto_livres);
-			var diaria = parseFloat(prompt("Informe o valor da diaria: "));
-			if(diaria = " " && diaria < 0){
-				alert("valor invalido");
-				inicio();
-			} else {
-				var q_dias = parseInt(prompt("Quantos dias de reserva? "));
-				if(q_dias = " " && q_dias < 0 && q_dias > 30){
-					alert("valor invalido");
 					inicio();
 				} else {
-					var nome_hosp = prompt("Digite o nome completo do hospede: ");
-					if(nome_hosp = null){
-						alert("valor invalido");
+					var senha_user = prompt('Olá ' + nome_user + '! Por favor, informe a senha de acesso:');
+					if (senha_user !== senha) {
+						alert('Senha incorreta. Tente novamente.');
+						tentativas_acesso++;
 						inicio();
 					} else {
-						ver_quarto = parseInt(prompt("Qual quarto deseja fazer reserva? "));
-						for(i = 0, i <= n_quarto_livres, i++){
-							alert(quarto_livre[ver_quarto]);		//////////////////////////////PAREI AQUI, PRECISA TERMINAR.
-						}
+						tentativas_acesso = 0;
+						menu();
 					}
 				}
 			}
-			inicio();
-		}
 
-		function cadastro_hospedes() {
-			alert('HOTEL ' + hotel_nome + ' - CADASTRO DE HÓSPEDES');
-			inicio();
-		}
+			function menu() {
+				var escolha = parseInt(prompt('Bem-vindo ao ' + hotel_nome + '!\n\n1.) Reserva de Quartos \n2.) Cadastro de Hóspedes \n3.) Eventos \n4.) Ar-condicionado \n5.) Abastecimento de Carros \n6.) Relatórios operacionais \n7.) Sair'));
 
-		function abastecer_carros() {
-			alert('HOTEL ' + hotel_nome + ' - ABASTECER');
-			inicio();
-		}
-
-		function erro() {
-			alert('Por favor, informe um número entre 1 e 7');
-			inicio();
-		}
-
-		function sair() {
-			var confirma = confirm('Você deseja sair?');
-			if (confirma) {
-				alert('muito obrigado e ate logo, ' + nome_user);
-				window.close();
-			} else {
-				inicio();
+				switch (escolha) {
+					case 1: reserva_quartos(); break;
+					case 2: cadastro_hospedes(); break;
+					case 3: sistema_eventos(); break;
+					case 4: ar_condicionado(); break;
+					case 5: abastecer_carros(); break;
+					case 6: relatorios_operacionais(); break;
+					case 7: sair(); break;
+					default: erro(); break;
+				}
 			}
-		}
 
-		
-		
-		inicio();
-	</script>
-</head>
+			// --- SUBPROGRAMA 1: RESERVA DE QUARTOS ---
+			function reserva_quartos() {
+				let diaria = parseFloat(prompt("Informe o valor da diária: "));
+				if (diaria <= 0 || isNaN(diaria)) {
+					alert("Valor inválido.");
+					menu();
+					return;
+				}
+				var q_dias = parseInt(prompt("Quantos dias de reserva?"));
+				if (q_dias <= 0 || q_dias > 30 || isNaN(q_dias)) {
+					alert("Quantidade de dias inválida.");
+					menu();
+					return;
+				}
+				var nome_hosp = prompt("Digite o nome completo do hóspede:");
+				
+				let tipo_quarto_input = prompt("Qual o tipo de quarto?\n1- Standard (1x)\n2- Executivo (1.35x)\n3- Luxo (1.65x)");
+				let multiplicador = 1;
+				if (tipo_quarto_input == "2") multiplicador = 1.35;
+				if (tipo_quarto_input == "3") multiplicador = 1.65;
 
-<body>
+				var quarto_solicitado = parseInt(prompt("Qual o número do quarto? (1-20)")) - 1;
 
-</body>
+				if (quarto_livre[quarto_solicitado] === "livre") {
+					var sub_total = diaria * q_dias * multiplicador;
+					var valor_total = sub_total * 1.10; // Taxa de 10%
+					
+					if (confirm("Valor total: R$ " + valor_total.toFixed(2) + ". Confirmar?")) {
+						quarto_livre[quarto_solicitado] = "ocupado";
+						n_quarto_livres--;
+						// ATUALIZA RELATÓRIO
+						total_reservas_quartos++;
+						receita_hospedagem += valor_total;
+						alert("Reserva confirmada!");
+					}
+				} else {
+					alert("Quarto ocupado!");
+				}
+				menu();
+			}
 
-</html>
+			// --- SUBPROGRAMA 2: CADASTRO DE HÓSPEDES  Agora coloquei junto aqui para adicionar junto ao relatorio final ---
+			function cadastro_hospedes() {
+					var escolha = parseInt(prompt("Cadastro de Hóspedes\n\n" +
+							"1. Cadastrar\n 2. Pesquisar nome exato\n 3. Pesquisar por prefixo\n 4. Listar ordenado (A-Z)\n 5. Atualizar cadastro\n 6. Remover cadastro\n 7. Voltar"));
+					switch (escolha) {
+						case 1: cadastrar_hospedes(); break;
+						case 2: pesquisar_exato(); break;
+						case 3: pesquisar_prefixo(); break;
+						case 4: listar_ordenado(); break;
+						case 5: atualizar_hospede(); break;
+						case 6: remover_hospede(); break;
+						case 7: 
+							alert("Retornando ao menu principal...");
+							menu();
+							break; 
+						default:
+							alert("Por favor, informe um número entre 1 e 7");
+							cadastro_hospedes();
+					}
+				}
+
+				function cadastrar_hospedes() {
+					if (lista_hospedes.length >= 15) {
+						alert("Máximo de cadastros atingido");
+					} else {
+						var nome = prompt("Nome do hóspede:");
+						
+						var existe = lista_hospedes.some(h => h.nome.toLowerCase() === nome.toLowerCase());
+
+						if (existe) {
+							alert("Hóspede já cadastrado");
+						} else {
+							var agora = new Date().toLocaleString();
+							lista_hospedes.push({ nome: nome, data: agora });
+							alert("Operação realizada com sucesso");
+						}
+					}
+					menu();
+				}
+
+				function pesquisar_exato() {
+					var busca = prompt("Informe o nome exato:");
+					var encontrado = lista_hospedes.find(h => h.nome === busca);
+
+					if (encontrado) {
+						alert("Hóspede " + busca + " foi encontrado.");
+					} else {
+						alert("Hóspede não encontrado");
+					}
+					menu();
+				}
+
+				function pesquisar_prefixo() {
+					var prefixo = prompt("Informe o prefixo:");
+					var resultados = lista_hospedes.filter(h => h.nome.toLowerCase().startsWith(prefixo.toLowerCase()));
+
+					if (resultados.length > 0) {
+						var msg = "Resultados:\n";
+						resultados.forEach((h, i) => msg += "[" + (i + 1) + "] " + h.nome + "\n");
+						alert(msg);
+					} else {
+						alert("Nenhum hóspede com esse prefixo.");
+					}
+					menu();
+				}
+
+				function listar_ordenado() {
+					if (lista_hospedes.length === 0) {
+						alert("Hóspede não encontrado");
+					} else {
+						// pode ser complexo, porém ajuda a não alterar a lista, quase como se tirasse uma print
+						var ordenada = [...lista_hospedes].sort((a, b) => a.nome.localeCompare(b.nome));
+						var msg = "Hóspedes (A-Z):\n";
+						ordenada.forEach((h, i) => msg += "[" + (i + 1) + "] " + h.nome + " - " + h.data + "\n");
+						alert(msg);
+					}
+					menu();
+				}
+
+				function atualizar_hospede() {
+					var indice = parseInt(prompt("Informe o índice do hóspede que deseja atualizar:")) - 1;
+					if (lista_hospedes[indice]) {
+						var novoNome = prompt("Novo nome para " + lista_hospedes[indice].nome + ":");
+						lista_hospedes[indice].nome = novoNome;
+						alert("Operação realizada com sucesso");
+					} else {
+						alert("Índice inválido");
+					}
+					menu();
+				}
+				function remover_hospede() {
+					var indice = parseInt(prompt("Informe o índice do hóspede que deseja remover:")) - 1;
+					if (lista_hospedes[indice]) {
+						lista_hospedes.splice(indice, 1);
+						alert("Operação realizada com sucesso");
+					} else {
+						alert("Índice inválido");
+					}
+					menu();
+				}
+
+
+			// --- SUBPROGRAMA 3: EVENTOS tbm tem outro html, mas peguei o codigo para poder fazer o relatorio final ---
+			function sistema_eventos() {
+				var qual_salao = "";
+				let nome_empresa = prompt("Digite o nome da empresa responsável pelo evento:");
+				let qtd_convidados = parseInt(prompt("Informe a quantidade de convidados:"));
+
+				if (isNaN(qtd_convidados) || (qtd_convidados <= 0)) {
+					alert("Valores inválidos, tente novamente.");
+					return sistema_eventos(); // Uso o return para parar a execução atual
+				} else if (qtd_convidados <= 220) {
+					qual_salao = "Laranja";
+					if (qtd_convidados > 150) {
+						let extras = qtd_convidados - 150;
+						alert("Será necessário 150 cadeiras do salão Laranja e mais " + extras + " cadeiras extras.");
+					} else {
+						alert("Será necessário " + qtd_convidados + " cadeiras no salão Laranja.");
+					}
+				} else if (qtd_convidados <= 350) {
+					qual_salao = "Colorado";
+					alert("Salão Colorado é recomendado para " + qtd_convidados + " convidados.");
+				} else {
+					alert("Limite de convidados excedido.");
+					return menu();
+				}
+
+				alert("Verificando agenda para o salão " + qual_salao + "...");
+				
+				var mostrar_agenda = "";
+				// Escolhe qual lista percorrer baseado no salão me baseei nos codigos de react, onde tem uma variavel que escolhe qual array usar, ai achei melhor para não ter que repetir o codigo de mostrar a agenda e pedir o dia, alem de deixar mais organizado para o relatorio final
+				var lista_escolhida = (qual_salao === "Laranja") ? laranja : colorado;
+
+				lista_escolhida.forEach((i) => {
+					let status = (i.disp === "S") ? " [LIVRE] " : " [OCUPADO por " + i.emp + "] ";
+					mostrar_agenda += i.dia + status + "| Horário: " + i.Horario + "\n";
+				});
+
+				let dia_evento = prompt(mostrar_agenda + "\nInforme o dia da semana para o evento:");
+				
+				// Busca o objeto do dia dentro da lista escolhida para depois verificar se está disponível e também para atualizar o nome da empresa caso a reserva seja confirmada
+				var dia_encontrado = lista_escolhida.find(e => e.dia.toLowerCase() === dia_evento.toLowerCase());
+
+				if (dia_encontrado) {
+					if (dia_encontrado.disp === "S") {
+						let comeco_reserva = parseInt(prompt("Informe que horas o evento começará:"));
+						let tempo_reserva = parseInt(prompt("Informe quanto tempo o evento irá durar:"));
+						let termino_reserva = comeco_reserva + tempo_reserva;
+
+						if (termino_reserva > 23) {
+							alert("O horário excede o limite do hotel (23h).");
+							return menu();
+						}
+
+						// Cálculo de Garçons
+						let qtd_garcons = Math.ceil(qtd_convidados / 12);
+						let bonus_garcons = Math.floor(tempo_reserva / 2);
+						let total_garcons = qtd_garcons + bonus_garcons;
+						let preco_garcon = total_garcons * tempo_reserva * 10.50;
+
+						// Cálculo Buffet
+						let custo_buffet = (qtd_convidados * 0.2 * 0.80) + (qtd_convidados * 0.5 * 0.40) + ((qtd_convidados * 7 / 100) * 34);
+						let custo_total = preco_garcon + custo_buffet;
+
+						let relatorio = `--- CONFIRMAÇÃO ---\nSalão: ${qual_salao}\nEmpresa: ${nome_empresa}\nDia: ${dia_encontrado.dia}\nTotal: R$ ${custo_total.toFixed(2)}\nDeseja confirmar? (S/N)`;
+
+						let decisao = prompt(relatorio).toUpperCase();
+						if (decisao === "S") {
+							// 3. ALTERANDO OS VALORES NO ARRAY ORIGINAL
+							dia_encontrado.disp = "N";         // Muda para Não disponível
+							dia_encontrado.emp = nome_empresa; // Salva o nome da empresa no objeto
+							
+							total_eventos_confirmados++;
+							receita_eventos += custo_total;
+							alert("Reserva efetuada!");
+						} else {
+							alert("Reserva cancelada.");
+						}
+					} else {
+						alert("Este dia já está ocupado por " + dia_encontrado.emp);
+					}
+				} else {
+					alert("Dia inválido.");
+				}
+				menu();
+			}
+
+			// --- SUBPROGRAMA 4: AR-CONDICIONADO  tbm tem html, mas fiz neste arquivo para ter o relatorio final---
+			function ar_condicionado() {
+				let menor_valor = Infinity;
+				let nome_menor = "";
+				let maior_valor = 0;
+				let nome_maior = "";
+				let continuar = "S";
+
+				do {
+					let empresa = prompt("Qual o nome da empresa?");
+					let valor_aparelho = parseFloat(prompt("Qual o valor por aparelho?"));
+					let qtd_aparelhos = parseInt(prompt("Qual a quantidade de aparelhos?"));
+					let perc_desconto = parseFloat(prompt("Qual o percentual de desconto? (%)"));
+					let qtd_minima = parseInt(prompt("Qual a quantidade mínima para desconto?"));
+					let valor_deslocamento = parseFloat(prompt("Qual o valor fixo de deslocamento?"));
+					let valor_servico = valor_aparelho * qtd_aparelhos;
+
+					if (qtd_aparelhos >= qtd_minima) {
+						valor_servico -= (valor_servico * (perc_desconto / 100));
+					}
+
+					valor_servico += valor_deslocamento;
+					alert("O serviço de " + empresa + " custará R$ " + valor_servico.toFixed(2));
+
+					if (valor_servico < menor_valor) {
+						menor_valor = valor_servico;
+						nome_menor = empresa;
+					}
+
+					if (valor_servico > maior_valor) {
+						maior_valor = valor_servico;
+						nome_maior = empresa;
+					}
+
+					continuar = prompt("Deseja informar novos dados? (S/N)").toUpperCase();
+
+				} while (continuar === "S");
+
+				let diferenca = ((maior_valor - menor_valor) / menor_valor) * 100;
+
+				alert("O orçamento de menor valor é o de " + nome_menor + " por R$ " + menor_valor.toFixed(2) +
+					"\nO orçamento de maior valor é o de " + nome_maior + " por R$ " + maior_valor.toFixed(2) +
+					"\nA diferença percentual entre eles é de " + diferenca.toFixed(2) + "%");
+				menu();
+				}
+
+			// --- SUBPROGRAMA 5: ABASTECIMENTO tbm tem html, mas fiz neste arquivo para ter o relatorio final ---
+			function abastecer_carros() {
+				const TANQUE = 42;
+
+				let wayne_alcool = parseFloat(prompt("Informe o valor do álcool no posto Wayne Oil:"));
+				let wayne_gasolina = parseFloat(prompt("Informe o valor da gasolina no posto Wayne Oil:"));
+
+				let stark_alcool = parseFloat(prompt("Informe o valor do álcool no posto Stark Petrol:"));
+				let stark_gasolina = parseFloat(prompt("Informe o valor da gasolina no posto Stark Petrol:"));
+
+				let melhor_wayne;
+				let valor_wayne;
+
+				if (wayne_alcool <= wayne_gasolina * 0.7) {
+					melhor_wayne = "Álcool";
+					valor_wayne = wayne_alcool * TANQUE;
+				} else {
+					melhor_wayne = "Gasolina";
+					valor_wayne = wayne_gasolina * TANQUE;
+				}
+
+				let melhor_stark;
+				let valor_stark;
+
+				if (stark_alcool <= stark_gasolina * 0.7) {
+					melhor_stark = "Álcool";
+					valor_stark = stark_alcool * TANQUE;
+				} else {
+					melhor_stark = "Gasolina";
+					valor_stark = stark_gasolina * TANQUE;
+				}
+
+				alert("Wayne Oil: melhor opção = " + melhor_wayne + " | Total (42L) = R$ " + valor_wayne.toFixed(2));
+				alert("Stark Petrol: melhor opção = " + melhor_stark + " | Total (42L) = R$ " + valor_stark.toFixed(2));
+
+				if (valor_wayne < valor_stark) {
+					alert("é mais barato abastecer com " + melhor_wayne + " no posto Wayne Oil.");
+				} else if (valor_stark < valor_wayne) {
+					alert("é mais barato abastecer com " + melhor_stark + " no posto Stark Petrol.");
+				} else {
+					alert(" os preços são iguais nos dois postos.");
+				}
+				
+				var escolha = prompt("Deseja comparar os preços novamente? (S/N)").toUpperCase();
+				if (escolha === "S") {
+					menu();
+				} else {
+					alert("Obrigado por usar o sistema de comparação de combustíveis! \n voltando menu principal...");
+				}
+			menu();
+			}
+			
+
+			// --- SUBPROGRAMA 6: RELATÓRIOS OPERACIONAIS ---
+			function relatorios_operacionais() {
+				let ocupacao = ((20 - n_quarto_livres) / 20) * 100;
+				let relatorio = `=== RELATÓRIO OPERACIONAL ===\n` +
+					`Reservas Confirmadas: ${total_reservas_quartos}\n` +
+					`Taxa de Ocupação: ${ocupacao.toFixed(1)}%\n` +
+					`Hóspedes Cadastrados: ${lista_hospedes.length}\n` +
+					`Eventos Confirmados: ${total_eventos_confirmados}\n` +
+					`-----------------------------\n` +
+					`Receita Hospedagem: R$ ${receita_hospedagem.toFixed(2)}\n` +
+					`Receita Eventos: R$ ${receita_eventos.toFixed(2)}\n` +
+					`TOTAL GERAL: R$ ${(receita_hospedagem + receita_eventos).toFixed(2)}`;
+				alert(relatorio);
+				menu();
+			}
+
+			function erro() {
+				alert('Por favor, informe um número entre 1 e 7');
+				menu();
+			}
+
+			function sair() {
+				if (confirm('Você deseja sair?')) {
+					alert('Muito obrigado e até logo, ' + nome_user);
+					/* Um problema é que as vezes o windows close funciona e as vezes nao, pesquisei e fala que é por uma questão de segurança */
+					window.close();
+				} else {
+					alert('Retornando ao menu principal...');
+					menu();
+				}
+			}
+
+			inicio();
+		</script>
+	</head>
+	<body></body>
+	</html>

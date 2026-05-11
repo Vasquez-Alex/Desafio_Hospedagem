@@ -1,0 +1,146 @@
+<html>
+<head>
+    <script>
+
+    var eventos = [
+    { emp: " ", dia: "Segunda", disp: "S", Horario: "07:00 até 23:00",}, 
+    { emp: " ", dia: "Terça",   disp: "S", Horario: "07:00 até 23:00" },      
+    { emp: " ", dia: "Quarta",  disp: "S", Horario: "07:00 até 23:00" },
+    { emp: " ", dia: "Quinta",  disp: "S", Horario: "07:00 até 23:00" },
+    { emp: " ", dia: "Sexta",   disp: "S", Horario: "07:00 até 23:00" },
+    { emp: " ", dia: "Sabado",  disp: "S", Horario: "07:00 até 15:00" },
+    { emp: " ", dia: "Domingo", disp: "S", Horario: "07:00 até 15:00" }    
+];
+
+        function sistema_eventos() {
+            var qual_salao = 0;
+            let nome_empresa = prompt("Digite o nome da empresa responsavel pelo evento");
+            let qtd_convidados = parseInt(prompt("Informe a quantidade de convidados:"));
+            if (isNaN(qtd_convidados) || (qtd_convidados <= 0)) {
+                alert ("Valor invalidos, tente novamente");
+                sistema_eventos();
+            } else if (qtd_convidados <= 150) {
+                qual_salao = "Laranja";
+                alert("Será necessário " + qtd_convidados + " cadeiras no salão Laranja");
+            } else if (qtd_convidados <= 220) {
+                qual_salao = "Laranja";
+                var cadeira_extra = qtd_convidados - 150;
+                alert("Será necessário 150 cadeiras do slão Laranja e mais " + cadeira_extra + " cadweiras extraas");
+            } else if (qtd_convidados <= 350) {
+                qual_salao = "Colorado";
+                alert("Salão Colorado é recomendado para " + qtd_convidados + " convidados");
+            } else {
+                alert("Limite de convidados excedido, tente novamente");
+                sistema_eventos();
+            }
+
+            alert("Agora, iremos verificar a agenda dos dias disponiveis para eventos. O salão " + qual_salao + " tem os seguintes dias disponíveis: ");
+            var agenda_disponivel = "";
+            var mostrar_agenda = "";
+            eventos.forEach((i) => {
+                agenda_disponivel = "Dia da semana: " +i.dia + " Disponibilidade: " + i.disp + " Horário: " + i.Horario;
+                mostrar_agenda += agenda_disponivel + "\n";
+            });
+            let dia_evento = prompt(mostrar_agenda + "\nInforme o dia da semana para o evento:");
+            var dia_encontrado = eventos.find(e => e.dia.toLowerCase() === dia_evento.toLowerCase());
+            if (dia_encontrado) {
+                if (dia_encontrado.disp === "S") {
+                    alert("O salão " + qual_salao + " está disponível para o dia " + dia_encontrado.dia + " no horário " + dia_encontrado.Horario);
+                    var comeco_reserva = parseInt(prompt("Informe que horas o evento começará: "));
+                    var tempo_reserva = parseInt(prompt("Informe queanto tempo o evento irá durar: "));
+                    termino_reserva = tempo_reserva + comeco_reserva;
+                    alert("Evento reservado para o dia " + dia_encontrado.dia + " no salão " + qual_salao + " das " + comeco_reserva + " às " + termino_reserva);
+                    if(termino_reserva > 23){
+                        alert("O horário do evento excede o limite de funcionamento do hotel, por favor escolha um horário diferente");
+                        sistema_eventos();
+                    } else{
+                        var qtd_garçons = Math.ceil(qtd_convidados / 12);
+                        alert("garçons para essa quantidade de convidados: " + qtd_garçons);   
+                        if(qtd_convidados % 12 === 0){
+                            var bonus_garcons = 0;
+                            if (tempo_reserva > 1) {
+                                bonus_garcons = Math.floor(tempo_reserva / 2);
+                                alert("Garçons adicionais para eventos mais longos: " + bonus_garcons);
+                                total_garcons = qtd_garçons + bonus_garcons;
+                                alert("Total de garçons necessários: " + total_garcons);
+                            } else {
+                                alert("Total de garçons necessários: " + qtd_garcons);
+                                total_garcons = qtd_garcons;
+                            }
+                        } else {
+                            var bonus_garcons = 0;
+                            if (tempo_reserva > 1) {
+                                bonus_garcons += Math.floor(tempo_reserva / 2 );
+                                alert("Garçons adicionais para eventos mais longos: " + (bonus_garcons));
+                                total_garcons = qtd_garçons + bonus_garcons;
+                                alert("Total de garçons necessários: " + total_garcons);
+                            } else {
+                                alert("Total de garçons necessários: " + (qtd_garçons + bonus_garcons));
+                                total_garcons = qtd_garçons + bonus_garcons;
+                            }
+                        }
+                        preco_garcon = total_garcons * tempo_reserva * 10.50;
+                        alert("O valor total para os garçons é: R$ " + preco_garcon.toFixed(2));
+
+                        /// agora será a parte do buffet
+                        let qtd_cafe = qtd_convidados * 0.2;
+                        let qtd_agua = qtd_convidados * 0.5;
+                        let qtd_salg = qtd_convidados * 7;
+
+                        /// Agora temos as quantidades completas, resta agora calcular o custo por quantidade
+
+                        let custo_cafe = qtd_cafe * 0.80;
+                        let custo_agua = qtd_agua * 0.40;
+                        /// aqui o calculo é para a cada 100 salgados é 34, se for menos o valor é menor
+                        let custo_salg = (qtd_salg / 100) * 34.00;
+
+                        let total_buffet = custo_agua + custo_cafe + custo_salg;
+                        alert("O custo do Buffet será de " + total_buffet);
+
+                        /// finalizar com os ultimos dados
+
+                        var custo_total = preco_garcon + total_buffet;
+
+                        let relatorio_final = "-----RELATORIO TECNICO DO EVENTO LUTHOR-----\n \n" +
+                        "Auditorio: " + qual_salao + "\n" +
+                        "Responsavel: " + nome_empresa + "\n" +
+                        "Data: " + dia_encontrado + " às " + comeco_reserva + "h\n" +
+                        "Duração: " + tempo_reserva + " horas\n" +
+                        "-----------------------------------\n" +
+                        "Público: " + qtd_convidados + " convidados\n" +
+                        "Equipe: " + total_garcons + " garçons\n" +
+                        "-----------------------------------\n" +
+                        "Custo Garçons: R$ " + preco_garcon.toFixed(2) + "\n" +
+                        "Custo Buffet: R$ " + total_buffet.toFixed(2) + "\n" +
+                        "TOTAL GERAL: R$ " + custo_total.toFixed(2) + "\n\n" +
+                        "Deseja confirmar a reserva? (S/N)";
+
+                        let decisao = prompt(relatorio_final).toUpperCase();
+                        if (decisao === "S"){
+                            alert("Reserva efetuada com sucesso.");
+                            dia_encontrado.emp = nome_empresa;
+                            dia_encontrado.disp = "N";
+                            sistema_eventos();
+                        } else {
+                            alert("Reserva cancelada.");
+                            sistema_eventos();
+                        }
+
+                    }
+                } else {
+                    alert("O salão " + qual_salao + " não está disponível para o dia " + dia_encontrado.dia);
+                }
+            } else {
+                alert("Dia da semana inválido, tente novamente");
+                sistema_eventos();
+            }
+
+                
+            
+        }
+
+        sistema_eventos();
+    </script>
+</head>
+    <body></body>
+</html>

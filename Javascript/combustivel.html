@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Combustivel</title>
+    <script>
+        function abastecer_carros() {
+            const TANQUE = 42;
+
+            let wayne_alcool = parseFloat(prompt("Informe o valor do álcool no posto Wayne Oil:"));
+            let wayne_gasolina = parseFloat(prompt("Informe o valor da gasolina no posto Wayne Oil:"));
+
+            let stark_alcool = parseFloat(prompt("Informe o valor do álcool no posto Stark Petrol:"));
+            let stark_gasolina = parseFloat(prompt("Informe o valor da gasolina no posto Stark Petrol:"));
+
+            let melhor_wayne;
+            let valor_wayne;
+
+            if (wayne_alcool <= wayne_gasolina * 0.7) {
+                melhor_wayne = "Álcool";
+                valor_wayne = wayne_alcool * TANQUE;
+            } else {
+                melhor_wayne = "Gasolina";
+                valor_wayne = wayne_gasolina * TANQUE;
+            }
+
+            let melhor_stark;
+            let valor_stark;
+
+            if (stark_alcool <= stark_gasolina * 0.7) {
+                melhor_stark = "Álcool";
+                valor_stark = stark_alcool * TANQUE;
+            } else {
+                melhor_stark = "Gasolina";
+                valor_stark = stark_gasolina * TANQUE;
+            }
+
+            alert("Wayne Oil: melhor opção = " + melhor_wayne + " | Total (42L) = R$ " + valor_wayne.toFixed(2));
+            alert("Stark Petrol: melhor opção = " + melhor_stark + " | Total (42L) = R$ " + valor_stark.toFixed(2));
+
+            if (valor_wayne < valor_stark) {
+                alert("é mais barato abastecer com " + melhor_wayne + " no posto Wayne Oil.");
+            } else if (valor_stark < valor_wayne) {
+                alert("é mais barato abastecer com " + melhor_stark + " no posto Stark Petrol.");
+            } else {
+                alert(" os preços são iguais nos dois postos.");
+            }
+            
+            var escolha = prompt("Deseja comparar os preços novamente? (S/N)").toUpperCase();
+            if (escolha === "S") {
+                abastecer_carros();
+            } else {
+                alert("Obrigado por usar o sistema de comparação de combustíveis! \n voltando menu principal...");
+                window.location.href = "Hotel.html";
+            }
+        }
+        abastecer_carros();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
